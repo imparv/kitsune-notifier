@@ -46,6 +46,7 @@ async def on_message(message):
         lines = embed.description.split("\n")
         fruits = []
 
+        # Collect all fruits
         for line in lines:
             if "**" in line:
                 fruit = line.split("**")[1].strip()
@@ -54,31 +55,38 @@ async def on_message(message):
         if not fruits:
             return
 
-        # ---- Build single beautiful box message ----
+        # ---- Prepare Big Banner ----
         box_msg = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        box_msg += "🍉 *CURRENT NORMAL STOCKS* 🍉\n"
+        box_msg += "🍉 *CURRENT NORMAL STOCKS!* 🍉\n"
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 
+        # Automatic emoji assignment
         emoji_map = {
             "Light": "🟢",
             "Smoke": "🟤",
-            "Love": "💖"
+            "Kitsune": "🦊",
+            "Flame": "🔥",
+            "Spring": "🌱",
+            "Yeti": "❄️",
+            # Add more fruits here if needed
         }
 
         for fruit in fruits:
-            emoji = emoji_map.get(fruit, "🔹")
-            box_msg += f"{emoji} {fruit}\n"
+            emoji = emoji_map.get(fruit, "🔹")  # Default emoji
+            box_msg += f"{emoji} *{fruit.upper()}*\n"   # Uppercase for big look
 
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 
-        # Add Love alert if present
-        if "kitsune" in fruits:
-            box_msg += "🔥 *ALERT: kitsune on stock!* 🔥\n"
+        # Add special Kitsune alert
+        if "Kitsune" in fruits:
+            box_msg += "🔥🦊 *ALERT: KITSUNE FRUIT IS ON STOCK!* 🦊🔥\n"
 
-        box_msg += "⏰ Stock updates live\n"
+        box_msg += "⏰ _Stock updates live_\n"
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+        # ---- Send to WhatsApp ----
         send_whatsapp_message(box_msg)
+
 
 
 # ------------------- Run the bot -------------------
