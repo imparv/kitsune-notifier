@@ -44,15 +44,42 @@ async def on_message(message):
             continue
 
         lines = embed.description.split("\n")
-        print("CURRENT FRUIT STOCK")
+        fruits = []
 
         for line in lines:
             if "**" in line:
                 fruit = line.split("**")[1].strip()
-                print(fruit)
+                fruits.append(fruit)
 
-                if fruit.lower() == "love":
-                    send_whatsapp_message("Sir, Love is on stock!")
+        if not fruits:
+            return
+
+        # ---- Build single beautiful box message ----
+        box_msg = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        box_msg += "🍉 *CURRENT NORMAL STOCKS* 🍉\n"
+        box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+
+        emoji_map = {
+            "Light": "🟢",
+            "Smoke": "🟤",
+            "Love": "💖"
+        }
+
+        for fruit in fruits:
+            emoji = emoji_map.get(fruit, "🔹")
+            box_msg += f"{emoji} {fruit}\n"
+
+        box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+
+        # Add Love alert if present
+        if "kitsune" in fruits:
+            box_msg += "🔥 *ALERT: kitsune on stock!* 🔥\n"
+
+        box_msg += "⏰ Stock updates live\n"
+        box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+        send_whatsapp_message(box_msg)
+
 
 # ------------------- Run the bot -------------------
 client.run(os.environ["DISCORD_TOKEN"])
