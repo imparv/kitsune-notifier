@@ -33,7 +33,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author.id != target_id:
+    if message.author.id != int(os.environ["TARGET_ID"]):
         return
 
     for embed in message.embeds:
