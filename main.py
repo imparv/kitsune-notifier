@@ -24,7 +24,6 @@ def send_whatsapp_message(msg):
 intents = discord.Intents.default()
 intents.message_content = True
 
-target_id = int(os.environ["TARGET_ID"])
 client = discord.Client(intents=intents)
 
 @client.event
