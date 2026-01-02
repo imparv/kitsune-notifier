@@ -81,6 +81,7 @@ async def on_message(message):
         box_msg += "⏰ _Stock updates live_\n"
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+        print(box_msg)
         send_whatsapp_message(box_msg)
 
 
