@@ -33,7 +33,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author.id != int(os.environ["TARGET_ID"]):
+    if message.channel.id != int(os.environ["CHANNEL_ID"]):
+        return
+
+    if not message.embeds:
         return
 
     for embed in message.embeds:
@@ -46,7 +49,6 @@ async def on_message(message):
         lines = embed.description.split("\n")
         fruits = []
 
-        # Collect all fruits
         for line in lines:
             if "**" in line:
                 fruit = line.split("**")[1].strip()
@@ -60,7 +62,6 @@ async def on_message(message):
         box_msg += "🍉 *CURRENT NORMAL STOCKS!* 🍉\n"
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 
-        # Automatic emoji assignment
         emoji_map = {
             "Light": "🟢",
             "Smoke": "🟤",
@@ -68,23 +69,20 @@ async def on_message(message):
             "Flame": "🔥",
             "Spring": "🌱",
             "Yeti": "❄️",
-            # Add more fruits here if needed
         }
 
         for fruit in fruits:
-            emoji = emoji_map.get(fruit, "🔹")  # Default emoji
-            box_msg += f"{emoji} *{fruit.upper()}*\n"   # Uppercase for big look
+            emoji = emoji_map.get(fruit, "🔹")
+            box_msg += f"{emoji} *{fruit.upper()}*\n"
 
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 
-        # Add special Kitsune alert
         if "Kitsune" in fruits:
             box_msg += "🔥🦊 *ALERT: KITSUNE FRUIT IS ON STOCK!* 🦊🔥\n"
 
         box_msg += "⏰ _Stock updates live_\n"
         box_msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-        # ---- Send to WhatsApp ----
         send_whatsapp_message(box_msg)
 
 
